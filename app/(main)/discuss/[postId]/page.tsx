@@ -40,7 +40,7 @@ export default async function PostDetailPage({
       profiles!posts_author_id_fkey ( name )
     `)
     .eq('id', resolvedParams.postId)
-    .single()
+    .single() as any
 
   if (postError || !post) {
     return <div className="p-8 text-center">Post not found.</div>
