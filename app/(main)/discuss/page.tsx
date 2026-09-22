@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 
+export const dynamic = 'force-dynamic'
+
 export default async function DiscussPage({
   searchParams
 }: {
