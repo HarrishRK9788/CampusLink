@@ -15,6 +15,12 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   if (!user) {
     redirect('/login')
   }
+
+  // Enforce college email domain (case-insensitive)
+  if (!user.email?.toLowerCase().endsWith('@psgtech.ac.in')) {
+    await supabase.auth.signOut()
+    redirect('/login?error=Strictly+restricted+to+%40psgtech.ac.in+emails.')
+  }
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <header className="bg-white dark:bg-gray-800 border-b p-4 flex justify-between items-center sticky top-0 z-10">
