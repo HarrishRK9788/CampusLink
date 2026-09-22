@@ -60,13 +60,25 @@ export async function logout() {
   redirect('/login')
 }
 
+const getURL = () => {
+  let url =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+    process.env.VERCEL_URL ??
+    'http://localhost:3000'
+
+  url = url.includes('http') ? url : `https://${url}`
+  url = url.replace(/\/$/, '')
+  return url
+}
+
 export async function signInWithGoogle() {
   const supabase = await createClient()
   
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`,
+      redirectTo: `${getURL()}/auth/callback`,
     },
   })
 
