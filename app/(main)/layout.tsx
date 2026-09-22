@@ -34,9 +34,11 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         <div className="flex items-center gap-4">
           <ModeToggle />
           <Link href="/profile" className="text-sm font-medium text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white">Profile</Link>
-          <Link href="/logout" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3">
-            Logout
-          </Link>
+          <form action={logout}>
+            <button type="submit" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3">
+              Logout
+            </button>
+          </form>
         </div>
       </header>
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8">
