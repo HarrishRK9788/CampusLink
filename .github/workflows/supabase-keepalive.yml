@@ -1,0 +1,17 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Runs at 00:00 every Monday and Thursday (twice a week is enough for a 7-day pause limit)
+    - cron: '0 0 * * 1,4'
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Vercel Keepalive Route
+        run: |
+          # Pings the Next.js API route, which in turn queries Supabase
+          curl -f -s https://campuslink.vercel.app/api/keepalive
+          echo "Successfully pinged Supabase to prevent pausing!"
