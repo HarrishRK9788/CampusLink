@@ -1,0 +1,31 @@
+name: Keep Supabase Alive (Direct API)
+
+on:
+  schedule:
+    # Runs once a day at midnight UTC (perfect for preventing 7-day inactivity)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows you to run it manually by clicking a button
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "❌ Error: SUPABASE_URL or SUPABASE_ANON_KEY is missing from GitHub Secrets!"
+            echo "Please go to Repository Settings -> Secrets and variables -> Actions and add them."
+            exit 1
+          fi
+          
+          echo "Pinging Supabase to prevent project pause..."
+          
+          # This makes a lightweight REST API call to your database (fetching 1 department ID)
+          curl -sS --fail -X GET "${SUPABASE_URL}/rest/v1/departments?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}"
+            
+          echo -e "\n✅ Successfully registered activity with Supabase!"
